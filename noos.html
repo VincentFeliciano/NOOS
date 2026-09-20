@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20width%3D%2229%22%20height%3D%2233%22%20viewBox%3D%220%200%2029%2033%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.4088%200L28.8087%208.03863V24.1159L14.4088%2032.1545L0%2024.1159V8.03863L14.4088%200Z%22%20fill%3D%22%23FC6188%22%2F%3E%3Cpath%20d%3D%22M14.6623%2016.0365L0.156921%2024.0583L0.156922%208.01465L14.6623%2016.0365Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M28.8087%208.03863L14.4089%2015.9957L14.4089%200L28.8087%208.03863Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M28.8087%2024.1159L14.2226%2016.0346L28.8087%208.03864L28.8087%2024.1159Z%22%20fill%3D%22%23A00942%22%2F%3E%3Cpath%20d%3D%22M14.4088%2032.1545L14.329%2015.914L28.8086%2024.1159L14.4088%2032.1545Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M14.4089%207.18172L22.6007%2011.7519V20.8923L14.4089%2025.4625L6.21705%2020.8923V11.7519L14.4089%207.18172Z%22%20fill%3D%22%23A00942%22%2F%3E%3Cpath%20d%3D%22M14.4088%2025.4625V7.18172L22.6011%2011.3847V20.8923L14.4088%2025.4625Z%22%20fill%3D%22%23FC6188%22%2F%3E%3C%2Fsvg%3E">
+  <title>NooS</title>
+  <link rel="stylesheet" href="noos.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+</head>
+<body>
+  <div class="trace-app">
+    <!-- Mobile sidebar backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-header-top">
+          <div class="logo">
+            <button class="logoModalBtn" onclick="showAboutModal()" style="background:none;border:none;cursor:pointer;padding:0;">
+              <span class="logo-wordmark">NooS</span>
+            </button>
+          </div>
+          
+          <!-- Save Status + Theme grouped right -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="theme-indicator-wrapper">
+              <div class="theme-indicator" id="themeIndicator" title="Change theme" onclick="toggleThemePopover(event)"></div>
+              <div class="theme-popover" id="themePopover">
+                <div class="theme-popover-title">Theme</div>
+                <div class="theme-swatch-grid">
+                  <div class="theme-swatch" data-theme="classic" style="background:#00d4ff" title="NooS Classic" onclick="applyTheme('classic');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-noir" style="background:#e0115f" title="NooS Noir" onclick="applyTheme('ruby-noir');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-twilight" style="background:#a78bfa" title="NooS Twilight" onclick="applyTheme('ruby-twilight');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-forest" style="background:#34d399" title="NooS Forest" onclick="applyTheme('ruby-forest');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-ocean" style="background:#3b82f6" title="NooS Ocean" onclick="applyTheme('ruby-ocean');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-ember" style="background:#f59e0b" title="NooS Ember" onclick="applyTheme('ruby-ember');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-slate" style="background:#58a6ff" title="NooS Slate" onclick="applyTheme('ruby-slate');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-midnight" style="background:#60a5fa" title="NooS Midnight" onclick="applyTheme('ruby-midnight');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-crimson" style="background:#fb7185" title="NooS Crimson" onclick="applyTheme('ruby-crimson');closeThemePopover()"></div>
+                  <div class="theme-swatch" data-theme="ruby-cosmic" style="background:#c084fc" title="NooS Cosmic" onclick="applyTheme('ruby-cosmic');closeThemePopover()"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 12px 4px;">
+        <button class="btn-primary" id="captureMomentBtn" style="width: 100%; margin: 0;">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment
+        </button>
+        <button class="btn-secondary" id="newThreadBtn" style="width: 100%;">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New Thread
+        </button>
+      </div>
+      <div class="sidebar-tools">
+        <button class="sidebar-tool-btn" onclick="openQuickCapture()" title="Quick Capture (Ctrl+K)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Quick <kbd style="font-size:9px;opacity:0.6;font-family:monospace;margin-left:2px;">Ctrl+K</kbd>
+        </button>
+        <button class="sidebar-tool-btn" onclick="exportToMarkdown()" title="Export to Markdown">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Export MD
+        </button>
+        <button class="sidebar-tool-btn" id="navSaveBtn" onclick="navSave()" title="Save Now">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <h3 data-section="views" onclick="toggleNavSection('views')">Views <svg class="nav-section-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+        <div class="nav-section-body" id="nav-section-body-views">
+        <div class="nav-item active" data-view="timeline">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Timeline
+        </div>
+        <div class="nav-item" data-view="graph">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+          Graph
+        </div>
+        <div class="nav-item" data-view="whiteboard">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
+          Whiteboard
+        </div>
+        <div class="nav-item" data-view="code">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Code Editor
+        </div>
+        <div class="nav-item" data-view="editor">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Markdown Editor
+        </div>
+        </div>
+
+        <h3 data-section="filtertype" onclick="toggleNavSection('filtertype')">Filter by Type <svg class="nav-section-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+        <div class="nav-section-body" id="nav-section-body-filtertype">
+        <div class="filter-item active" data-filter="all">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            All Moments
+          </div>
+          <div class="filter-count" id="count-all">0</div>
+        </div>
+        <div class="filter-item" data-filter="bug">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>
+            Bug
+          </div>
+          <div class="filter-count" id="count-bug">0</div>
+        </div>
+        <div class="filter-item" data-filter="meeting">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Meeting
+          </div>
+          <div class="filter-count" id="count-meeting">0</div>
+        </div>
+        <div class="filter-item" data-filter="decision">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+            Decision
+          </div>
+          <div class="filter-count" id="count-decision">0</div>
+        </div>
+        <div class="filter-item" data-filter="codereview">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code Review
+          </div>
+          <div class="filter-count" id="count-codereview">0</div>
+        </div>
+        <div class="filter-item" data-filter="research">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>
+            Research
+          </div>
+          <div class="filter-count" id="count-research">0</div>
+        </div>
+        <div class="filter-item" data-filter="question">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            Question
+          </div>
+          <div class="filter-count" id="count-question">0</div>
+        </div>
+        <div class="filter-item" data-filter="implementation">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            Implementation
+          </div>
+          <div class="filter-count" id="count-implementation">0</div>
+        </div>
+        <div class="filter-item" data-filter="feature">
+          <div class="filter-label">
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/></svg>
+            Feature
+          </div>
+          <div class="filter-count" id="count-feature">0</div>
+        </div>
+        </div><!-- end nav-section-body-filtertype -->
+
+        <h3 data-section="threads" onclick="toggleNavSection('threads')">Threads <svg class="nav-section-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+        <div class="nav-section-body" id="nav-section-body-threads">
+        <div class="thread-list" id="threadList"></div>
+
+        <div id="unthreadedFilter" class="filter-item hidden" style="margin-top: 12px;">
+          <div class="filter-label">
+            <svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="17" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg> Unthreaded
+          </div>
+          <div class="filter-count" id="count-unthreaded">0</div>
+        </div>
+        </div><!-- end nav-section-body-threads -->
+      </div>
+      
+    </div>
+    
+    <!-- Timeline View -->
+    <div class="timeline-view" id="timelineView">
+      <div class="timeline-list">
+        <div class="timeline-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div class="timeline-title" id="timelineTitle">All Moments</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button class="sort-toggle-btn" id="aiSearchToggleBtn" onclick="toggleAiSearch()" title="AI Semantic Search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              AI Search
+            </button>
+            <button class="sort-toggle-btn" id="sortToggleBtn" onclick="toggleSortOrder()" title="Toggle sort order">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
+              <span id="sortToggleLabel">Newest First</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- AI Search Panel -->
+        <div id="aiSearchPanel" style="display:none; padding: 10px 0 6px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px;">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input id="searchInput" class="search-input" style="flex:1;font-size:13px;padding:8px 12px;background:rgba(0,0,0,0.3);border:1px solid var(--border-color);border-radius:6px;color:var(--text-primary);outline:none;" placeholder="Search by meaning… e.g. 'deploys that caused errors'">
+            <button class="btn-search" id="searchBtn" style="white-space:nowrap;padding:8px 14px;font-size:12px;">🔍 Search</button>
+            <button onclick="closeAiSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:4px 6px;" title="Close">✕</button>
+          </div>
+          <div id="searchResults" style="margin-top:6px;font-size:12px;color:var(--text-muted);"></div>
+        </div>
+        <div id="threadBanner" class="thread-banner hidden">
+          <div class="thread-banner-content">
+            <span class="thread-banner-icon"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span>
+            <span class="thread-banner-text" id="threadBannerText"></span>
+          </div>
+          <div class="thread-banner-actions">
+            <button class="thread-banner-btn" id="threadBannerDeleteBtn" onclick="confirmDeleteThread()" title="Delete Thread"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
+            <button class="thread-banner-close" onclick="clearThreadFilter()">✕</button>
+          </div>
+        </div>
+        <!-- Inline filter bar -->
+        <div class="inline-filter-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input class="inline-filter-input" id="inlineFilterInput" type="text" placeholder="Filter moments..." autocomplete="off" oninput="onInlineFilterInput(this.value)">
+          <button class="inline-filter-clear" id="inlineFilterClear" onclick="clearInlineFilter()" title="Clear filter">×</button>
+        </div>
+        <div id="onThisDayBanner"></div>
+        <div id="momentsList"></div>
+      </div>
+
+      <!-- Resize Handle -->
+      <div class="timeline-resize-handle" id="timelineResizeHandle"></div>
+
+      <div class="detail-panel" id="detailPanel"></div>
+    </div>
+
+    <!-- Capture View -->
+    <div class="capture-view" id="captureView">
+      <div class="capture-header">
+        <h1 id="captureTitle">Capture a Moment</h1>
+        <div class="capture-subtitle" id="captureSubtitle">What are you thinking right now?</div>
+        <div id="captureThreadIndicator" class="capture-thread-indicator hidden"></div>
+      </div>
+      
+      <div class="type-selector" id="typeSelector">
+        <div class="type-btn active" data-type="bug" style="color: #fa5252;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg></div>
+          <div class="type-btn-label">Bug</div>
+        </div>
+        <div class="type-btn" data-type="meeting" style="color: #339af0;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="type-btn-label">Meeting</div>
+        </div>
+        <div class="type-btn" data-type="decision" style="color: #be4bdb;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></div>
+          <div class="type-btn-label">Decision</div>
+        </div>
+        <div class="type-btn" data-type="codereview" style="color: #20c997;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <div class="type-btn-label">Code Review</div>
+        </div>
+        <div class="type-btn" data-type="research" style="color: #a78bfa;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg></div>
+          <div class="type-btn-label">Research</div>
+        </div>
+        <div class="type-btn" data-type="question" style="color: #ff922b;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></div>
+          <div class="type-btn-label">Question</div>
+        </div>
+        <div class="type-btn" data-type="implementation" style="color: #51cf66;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <div class="type-btn-label">Implementation</div>
+        </div>
+        <div class="type-btn" data-type="feature" style="color: #ffd43b;">
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="type-btn-label">Feature</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Thread (Optional)</label>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <select id="captureThreadSelect" class="form-input" style="flex: 1; margin: 0;">
+            <option value="">No thread</option>
+          </select>
+          <button class="btn-secondary" id="createThreadFromCaptureBtn" style="margin: 0; white-space: nowrap;">
+            <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New Thread
+          </button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Your Thought</label>
+        <textarea id="captureText" class="form-textarea" placeholder="What's on your mind? (Markdown + [[wikilinks]] supported)"></textarea>
+      </div>
+      
+      <div id="templateFields" class="form-group" style="display: none;">
+        <label class="form-label">Additional Details</label>
+        <div id="templateFieldsContainer"></div>
+      </div>
+      
+      <div class="form-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Context (Optional)</label>
+          <div class="context-fields">
+            <input id="contextService" class="form-input" placeholder="Service name">
+            <input id="contextEnvironment" class="form-input" placeholder="Environment" value="production">
+            <input id="contextVersion" class="form-input" placeholder="Version/commit">
+          </div>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Priority / Pin</label>
+          <div class="priority-selector">
+            <button class="priority-btn" data-priority="critical">
+              🔴 Critical
+            </button>
+            <button class="priority-btn" data-priority="follow-up">
+              🟡 Follow-up
+            </button>
+            <button class="priority-btn" data-priority="pinned">
+              ⭐ Pinned
+            </button>
+            <button class="priority-btn" data-priority="none">
+              ➖ None
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tags-input-container">
+          <input id="tagsInput" class="tags-input" placeholder="Add tags (e.g., #latency, #ui, #customer-impact) - press Enter to add">
+        </div>
+        <div class="tags-display" id="tagsDisplay"></div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Attachments</label>
+        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+          <button class="btn-secondary" id="addChartBtn" style="flex: 1; margin: 0;">
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Chart
+          </button>
+          <button class="btn-secondary" id="addCodeBtn" style="flex: 1; margin: 0;">
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code
+          </button>
+          <button class="btn-secondary" id="addTableBtn" style="flex: 1; margin: 0;">
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+            Table
+          </button>
+          <button class="btn-secondary" id="addFileBtn" style="flex: 1; margin: 0;">
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Files
+          </button>
+        </div>
+        <input type="file" id="fileInput" multiple accept="image/*,application/pdf,.doc,.docx,.txt" style="display: none;">
+        <div class="chart-preview" id="chartPreview"></div>
+        <div class="code-preview" id="codePreview"></div>
+        <div class="table-preview" id="tablePreview"></div>
+        <div class="attachments-container" id="attachmentsPreview"></div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-large btn-cancel" id="cancelCaptureBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="submitCaptureBtn"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment</button>
+      </div>
+    </div>
+    
+    <!-- Search View -->
+    <div class="search-view" id="searchView">
+      <div class="search-header">
+        <div class="search-box">
+          <input id="searchInput" class="search-input" placeholder="Search by keyword or meaning…">
+          <button class="btn-search" id="searchBtn">Search</button>
+        </div>
+      </div>
+      <!-- Filter bar -->
+      <div class="search-filter-bar" id="searchFilterBar">
+        <div class="search-filter-group">
+          <span class="search-filter-label">Type</span>
+          <span class="sf-pill active" data-sf-type="all">All</span>
+          <span class="sf-pill" data-sf-type="bug">Bug</span>
+          <span class="sf-pill" data-sf-type="meeting">Meeting</span>
+          <span class="sf-pill" data-sf-type="decision">Decision</span>
+          <span class="sf-pill" data-sf-type="codereview">Code Review</span>
+          <span class="sf-pill" data-sf-type="research">Research</span>
+          <span class="sf-pill" data-sf-type="question">Question</span>
+          <span class="sf-pill" data-sf-type="implementation">Impl</span>
+          <span class="sf-pill" data-sf-type="feature">Feature</span>
+        </div>
+        <div class="sf-divider"></div>
+        <div class="search-filter-group">
+          <span class="search-filter-label">Date</span>
+          <span class="sf-pill active" data-sf-date="all">All time</span>
+          <span class="sf-pill" data-sf-date="today">Today</span>
+          <span class="sf-pill" data-sf-date="week">This week</span>
+          <span class="sf-pill" data-sf-date="month">This month</span>
+        </div>
+      </div>
+      <div class="search-results-count" id="searchResultsCount"></div>
+      <div class="search-results" id="searchResults">
+        <div class="empty-state">
+          <div class="empty-state-icon">🔍</div>
+          <h3>Search your moments</h3>
+          <p>Filter by type or date, or search by keyword and meaning</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Graph View -->
+    <div class="graph-view" id="graphView">
+      <div class="graph-container-wrapper">
+        <div class="graph-header">
+          <h2>Knowledge Graph</h2>
+          <p class="graph-subtitle">Visualize connections between moments using [[wikilinks]]</p>
+          <div class="graph-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--accent-primary);"></div>
+              <span>Selected</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--ruby-accent);"></div>
+              <span>Linked</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--text-muted);"></div>
+              <span>Unlinked</span>
+            </div>
+          </div>
+        </div>
+        <div id="graphContainer"></div>
+      </div>
+      
+      <div class="detail-panel" id="graphDetailPanel"></div>
+    </div>
+
+    <!-- Whiteboard View -->
+    <div class="whiteboard-view" id="whiteboardView">
+      <div class="whiteboard-toolbar" id="whiteboardToolbar">
+        <span class="wb-toolbar-title">Whiteboard</span>
+        <button class="wb-tool-btn" id="wbAddText">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6H3"/><path d="M21 12H3"/><path d="M15 18H3"/></svg>
+          Text
+        </button>
+        <button class="wb-tool-btn" id="wbAddCode">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Code
+        </button>
+        <button class="wb-tool-btn" id="wbAddImage">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Image
+        </button>
+        <button class="wb-tool-btn" id="wbAddMoment">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Moment
+        </button>
+        <button class="wb-tool-btn" id="wbLinkMode">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Link
+        </button>
+        <button class="wb-tool-btn" id="wbClearCanvas" style="margin-left:4px;color:var(--text-muted)">Clear All</button>
+        <div class="wb-zoom-controls">
+          <button id="wbZoomOut">−</button>
+          <span id="wbZoomLabel">100%</span>
+          <button id="wbZoomIn">+</button>
+          <button id="wbZoomReset">Reset</button>
+        </div>
+      </div>
+      <div class="whiteboard-canvas-outer" id="wbCanvasOuter">
+        <div class="whiteboard-canvas" id="wbCanvas">
+          <svg class="wb-links-svg" id="wbLinksSvg"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Markdown Editor View -->
+    <div class="markdown-editor-view" id="markdownEditorView">
+      <div class="md-header">
+        <select class="md-doc-select" id="mdDocSelect" onchange="mdSwitchDoc(this.value)"></select>
+        <input class="md-title-input" id="mdTitleInput" placeholder="Untitled" oninput="mdOnTitleChange()" />
+        <button class="btn-secondary" onclick="mdNewDoc()" title="New document" style="padding:5px 10px;font-size:12px;">+ New</button>
+        <button class="btn-secondary" onclick="mdDeleteDoc()" title="Delete document" style="padding:5px 10px;font-size:12px;color:var(--text-muted);">Delete</button>
+      </div>
+      <div class="md-toolbar">
+        <button class="md-tool-btn" onclick="mdWrap('**','**')" title="Bold"><b>B</b></button>
+        <button class="md-tool-btn" onclick="mdWrap('*','*')" title="Italic"><i>I</i></button>
+        <button class="md-tool-btn" onclick="mdWrap('~~','~~')" title="Strikethrough"><s>S</s></button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdLinePrefix('# ')" title="Heading 1">H1</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('## ')" title="Heading 2">H2</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('### ')" title="Heading 3">H3</button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdLinePrefix('- ')" title="Bullet list">• List</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('1. ')" title="Numbered list">1. List</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('> ')" title="Blockquote">" Quote</button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdWrap('\`','\`')" title="Inline code">`code`</button>
+        <button class="md-tool-btn" onclick="mdInsertBlock('\`\`\`\n','\n\`\`\`')" title="Code block">```</button>
+        <button class="md-tool-btn" onclick="mdInsertAtCursor('\n---\n')" title="Horizontal rule">—</button>
+        <button class="md-tool-btn" onclick="mdInsertLink()" title="Link">🔗</button>
+      </div>
+      <div class="md-body">
+        <div class="md-editor-pane">
+          <textarea id="mdEditorTextarea" placeholder="Start writing…" spellcheck="true" oninput="mdOnInput()"></textarea>
+        </div>
+        <div class="md-preview-pane" id="mdPreview"></div>
+      </div>
+    </div>
+
+    <!-- Code Editor View -->
+    <div class="code-editor-view" id="codeEditorView">
+      <div class="ce-topbar">
+        <div class="ce-tab-bar" id="ceTabBar"></div>
+        <button class="ce-run-btn" id="ceRunBtn" onclick="ceRun()" title="Run (Ctrl+Enter)">▶ Run</button>
+      </div>
+      <div class="ce-body">
+        <div class="ce-editor-area">
+          <div class="ce-editor-mount" id="ceEditorMount"></div>
+          <div class="ce-loading" id="ceLoading">
+            <div class="ce-spinner"></div>
+            Loading Monaco Editor…
+          </div>
+        </div>
+        <div class="ce-divider" id="ceDivider"></div>
+        <div class="ce-output-panel" id="ceOutputPanel">
+          <div class="ce-output-header">
+            <button class="ce-out-tab active" id="ceOutTabOutput" onclick="ceShowTab('output')">Output</button>
+            <button class="ce-out-tab" id="ceOutTabInput" onclick="ceShowTab('input')">Input</button>
+            <span class="ce-exec-time" id="ceExecTime"></span>
+            <button class="ce-clear-btn" onclick="ceClearOutput()">Clear</button>
+          </div>
+          <div class="ce-output-body" id="ceOutputBody">
+            <div class="ce-output-empty">▶ Run your code to see output here</div>
+          </div>
+          <textarea class="ce-input-body" id="ceInputBody" placeholder="Paste input data here…&#10;&#10;Access it in your script via:&#10;  $input  → raw string&#10;  $json   → parsed JSON (or null)&#10;  $lines  → array of lines&#10;  $csv    → array of string arrays"></textarea>
+        </div>
+      </div>
+      <div class="ce-status-bar">
+        <select class="ce-lang-select" id="ceLangSelect" onchange="ceLangChange(this.value)">
+          <option value="plaintext">Plain Text</option>
+          <option value="javascript">JavaScript</option>
+          <option value="typescript">TypeScript</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="scss">SCSS</option>
+          <option value="less">Less</option>
+          <option value="json">JSON</option>
+          <option value="markdown">Markdown</option>
+          <option value="python">Python</option>
+          <option value="ruby">Ruby</option>
+          <option value="go">Go</option>
+          <option value="rust">Rust</option>
+          <option value="java">Java</option>
+          <option value="c">C</option>
+          <option value="cpp">C++</option>
+          <option value="csharp">C#</option>
+          <option value="php">PHP</option>
+          <option value="swift">Swift</option>
+          <option value="kotlin">Kotlin</option>
+          <option value="shell">Shell</option>
+          <option value="sql">SQL</option>
+          <option value="yaml">YAML</option>
+          <option value="xml">XML</option>
+          <option value="dockerfile">Dockerfile</option>
+        </select>
+        <span class="ce-cursor-pos" id="ceCursorPos">Ln 1, Col 1</span>
+        <span class="ce-sb-spacer"></span>
+        <button class="ce-format-btn" id="ceFormatBtn" onclick="ceFormat()">Format</button>
+      </div>
+    </div>
+
+    <!-- Quick Capture Overlay -->
+    <div class="quick-capture-overlay" id="quickCaptureOverlay" onclick="qcBackdropClick(event)">
+      <div class="quick-capture-modal">
+        <div class="qc-header">
+          <span class="qc-header-title">
+            <svg style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Quick Capture
+          </span>
+          <kbd class="qc-kbd">Ctrl+K</kbd>
+          <button class="qc-close" onclick="closeQuickCapture()">✕</button>
+        </div>
+        <div class="qc-type-bar" id="qcTypeBar"></div>
+        <textarea class="qc-textarea" id="qcText" placeholder="What's on your mind?" rows="4"></textarea>
+        <div class="qc-footer">
+          <select class="qc-thread-select" id="qcThreadSelect">
+            <option value="">No thread</option>
+          </select>
+          <button class="qc-submit" onclick="submitQuickCapture()">
+            Capture <kbd>↵</kbd>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+      <button class="mobile-nav-item active" data-view="timeline" onclick="mobileNavTo('timeline')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Timeline</span>
+      </button>
+      <button class="mobile-nav-item capture-nav" data-view="capture" onclick="mobileNavTo('capture')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Capture</span>
+      </button>
+      <button class="mobile-nav-item" data-view="search" onclick="mobileNavTo('search')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>Search</span>
+      </button>
+      <button class="mobile-nav-item" data-view="graph" onclick="mobileNavTo('graph')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h10"/><path d="m7 10 10-3"/><path d="m7 14 10 3"/></svg>
+        <span>Graph</span>
+      </button>
+      <button class="mobile-nav-item" data-view="whiteboard" onclick="mobileNavTo('whiteboard')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
+        <span>Board</span>
+      </button>
+      <button class="mobile-nav-item" data-view="code" onclick="mobileNavTo('code')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>Code Editor</span>
+      </button>
+      <button class="mobile-nav-item" data-view="editor" onclick="mobileNavTo('editor')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Markdown Editor</span>
+      </button>
+      <button class="mobile-nav-item" onclick="openMobileSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <span>Menu</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="modal modal-wide">
+      <h2>📖 About NooS</h2>
+      
+      <div class="about-content">
+        <p><strong>NooS</strong> is a developer-focused note-taking tool designed specifically for SREs, DevOps engineers, and developers who need to capture contextual information during critical moments.</p>
+        
+        <h3>🎯 The Concept</h3>
+        <p>In fast-paced development and operations environments, context is everything. NooS helps you capture thoughts, observations, and data exactly when they matter most—during incidents, deployments, debugging sessions, and decision-making moments.</p>
+        
+        <p>Unlike traditional note-taking apps, NooS is built around the concept of "moments"—timestamped snapshots that include not just text, but also charts, code snippets, tables, and contextual metadata like service names, environments, and versions.</p>
+        
+        <h3>✨ Key Features</h3>
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-item-title">📝 Multiple Moment Types</div>
+            <div class="feature-item-desc">Incidents, Deploys, Ideas, Bugs, Meetings, Decisions, and more</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> Thread Organization</div>
+            <div class="feature-item-desc">Group related moments into threads for complex investigations</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">📊 Rich Attachments</div>
+            <div class="feature-item-desc">Embed charts, code blocks, and tables directly in your moments</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">🔍 Semantic Search</div>
+            <div class="feature-item-desc">AI-powered search to find moments by meaning, not just keywords</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> Syntax Highlighting</div>
+            <div class="feature-item-desc">Beautiful code rendering with support for multiple languages</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Local Storage</div>
+            <div class="feature-item-desc">All data stays in your browser—complete privacy</div>
+          </div>
+        </div>
+        
+        <h3>🚀 Getting Started</h3>
+        <ul>
+          <li><strong>Capture a Moment:</strong> Click the "Capture Moment" button to create a new entry</li>
+          <li><strong>Choose a Type:</strong> Select the type that best describes what you're capturing</li>
+          <li><strong>Add Context:</strong> Include service name, environment, and version information</li>
+          <li><strong>Attach Data:</strong> Add charts for metrics, code snippets, or tables as needed</li>
+          <li><strong>Organize with Threads:</strong> Create threads to group related moments together</li>
+          <li><strong>Search & Filter:</strong> Use the sidebar to filter by type or search semantically</li>
+        </ul>
+        
+        <h3>💡 Pro Tips</h3>
+        <ul>
+          <li>Create threads for long-running incidents or investigations</li>
+          <li>Use observation moments to track gradual changes over time</li>
+          <li>Attach charts during incidents to visualize what you're seeing</li>
+          <li>Use the semantic search to find "moments when latency spiked"</li>
+          <li>Edit moments to add more information as situations develop</li>
+        </ul>
+        
+        <h3>🎨 Theme</h3>
+        <div id="modalThemeGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+          <div class="theme-option" data-theme="classic" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #00d4ff;"></div>
+            <span class="theme-name">NooS Classic</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-noir" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #e0115f;"></div>
+            <span class="theme-name">NooS Noir</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-twilight" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #a78bfa;"></div>
+            <span class="theme-name">NooS Twilight</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-forest" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #34d399;"></div>
+            <span class="theme-name">NooS Forest</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-ocean" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #3b82f6;"></div>
+            <span class="theme-name">NooS Ocean</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-ember" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #f59e0b;"></div>
+            <span class="theme-name">NooS Ember</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-slate" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #58a6ff;"></div>
+            <span class="theme-name">NooS Slate</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-midnight" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #60a5fa;"></div>
+            <span class="theme-name">NooS Midnight</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-crimson" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #fb7185;"></div>
+            <span class="theme-name">NooS Crimson</span>
+          </div>
+          <div class="theme-option" data-theme="ruby-cosmic" onclick="selectThemeFromModal(this)">
+            <div class="theme-color-preview" style="background: #c084fc;"></div>
+            <span class="theme-name">NooS Cosmic</span>
+          </div>
+        </div>
+
+
+        <h3>&#x1F419; GitHub Sync</h3>
+        <div id="githubSyncStatus" style="display:none;font-size:13px;color:var(--text-secondary);margin-bottom:12px;padding:12px;background:rgba(81,207,102,0.1);border:1px solid rgba(81,207,102,0.3);border-radius:8px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg style="width:18px;height:18px;color:#51cf66;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span style="color:#51cf66;font-weight:600;font-size:14px;">GitHub Sync Active</span>
+          </div>
+          <div id="githubLastSave" style="font-size:12px;color:var(--text-muted);margin-bottom:8px;"></div>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label class="form-label">GitHub Personal Access Token (repo scope)</label>
+          <input type="password" id="githubTokenInput" class="form-input" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <button class="btn-secondary" id="githubConnectBtn" onclick="setupGithubSync()" style="width:100%;">
+            <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            Connect GitHub
+          </button>
+          <button class="btn-secondary" id="githubDisconnectBtn" onclick="disableGithubSync()" style="width:100%;display:none;">
+            <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Disconnect
+          </button>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:16px;">
+          Saves to <code style="font-size:11px;">noos-data.json</code> in the VincentFeliciano/NOOS repo. All users share the same data file. Polls every 60 s for updates from other users.
+        </p>
+        <div class="creator-section">
+          <p>Created with 💎 by <span class="creator-name">Vincent Feliciano</span></p>
+          <p>© 2026</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-capture" onclick="hideAboutModal()">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart Data Modal -->
+  <div class="modal-overlay" id="chartModal">
+    <div class="modal">
+      <h2>Add Chart Data</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Chart Type</label>
+        <select id="modalChartType" class="form-input">
+          <option value="line">Line Chart</option>
+          <option value="area">Area Chart</option>
+          <option value="bar">Bar Chart</option>
+          <option value="horizontalBar">Horizontal Bar Chart</option>
+          <option value="scatter">Scatter Plot</option>
+          <option value="pie">Pie Chart</option>
+          <option value="donut">Donut Chart</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Chart Title</label>
+        <input id="modalChartTitle" class="form-input" placeholder="e.g., Latency (p95), Error Rate">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Data Points (comma-separated)</label>
+        <textarea id="modalChartData" class="form-textarea" rows="4" placeholder="Enter values separated by commas&#10;e.g., 45, 52, 48, 63, 71, 68, 55, 49, 52, 58, 61, 54"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Labels (optional, comma-separated)</label>
+        <input id="modalChartLabels" class="form-input" placeholder="e.g., 1am, 2am, 3am, 4am...">
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="modalCancelBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="modalAddBtn">Add Chart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal modal-confirm">
+      <div class="confirm-icon" id="confirmIcon">⚠️</div>
+      <h2 id="confirmTitle">Are you sure?</h2>
+      <p id="confirmMessage" class="confirm-message"></p>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="confirmCancelBtn">Cancel</button>
+        <button class="btn-large btn-delete" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Block Modal -->
+  <div class="modal-overlay" id="codeModal">
+    <div class="modal modal-wide">
+      <h2>Add Code Block</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Language</label>
+        <select id="modalCodeLanguage" class="form-input">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+          <option value="csharp">C#</option>
+          <option value="go">Go</option>
+          <option value="rust">Rust</option>
+          <option value="sql">SQL</option>
+          <option value="bash">Bash</option>
+          <option value="json">JSON</option>
+          <option value="yaml">YAML</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="markdown">Markdown</option>
+          <option value="plain">Plain Text</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Title (optional)</label>
+        <input id="modalCodeTitle" class="form-input" placeholder="e.g., Database migration script">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Code</label>
+        <textarea id="modalCodeContent" class="form-textarea code-textarea" rows="12" placeholder="Paste your code here..."></textarea>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="codeModalCancelBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="codeModalAddBtn">Add Code</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Modal -->
+  <div class="modal-overlay" id="tableModal">
+    <div class="modal modal-wide">
+      <h2>Create Table</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Title (optional)</label>
+        <input id="modalTableTitle" class="form-input" placeholder="e.g., Performance Metrics">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Table Data (CSV format)</label>
+        <textarea id="modalTableContent" class="form-textarea" rows="8" placeholder="Enter data in CSV format:&#10;&#10;Header 1, Header 2, Header 3&#10;Row 1 Col 1, Row 1 Col 2, Row 1 Col 3&#10;Row 2 Col 1, Row 2 Col 2, Row 2 Col 3"></textarea>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          💡 Tip: First row will be treated as headers. Separate columns with commas.
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="tableModalCancelBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="tableModalAddBtn">Add Table</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="modal-overlay" id="imageModal">
+    <div class="modal" style="max-width: 90vw; max-height: 90vh;">
+      <button class="image-modal-close" onclick="hideImageModal()" style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.5); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; z-index: 10001;">
+        ×
+      </button>
+      <img id="modalImage" src="" alt="Full size image" style="max-width: 100%; max-height: 80vh; display: block; margin: 0 auto; border-radius: 8px;">
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+  <script src="noos.js"></script>
+  
+</body>
+</html>

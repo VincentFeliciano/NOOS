@@ -207,12 +207,10 @@
       text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
     }
 
-    .logo-wordmark {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--accent-primary);
-      line-height: 1;
+    .logo-wordmark-img {
+      height: 36px;
+      width: auto;
+      display: block;
     }
 
     .tagline {

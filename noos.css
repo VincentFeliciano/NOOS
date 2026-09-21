@@ -1009,7 +1009,7 @@
       flex-shrink: 0;
       padding: 12px 16px;
       border-top: 1px solid var(--border-color);
-      background: rgba(43, 43, 43, 0.95);
+      background: var(--bg-primary);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -1281,7 +1281,7 @@
     }
     
     select.form-input option {
-      background: #2b2b2b;
+      background: var(--bg-primary);
       color: var(--text-primary);
       padding: 8px;
     }
@@ -1941,7 +1941,7 @@
     #graphContainer {
       flex: 1;
       position: relative;
-      background: #2b2b2b;
+      background: var(--bg-primary);
       overflow: hidden;
     }
 
@@ -2598,7 +2598,7 @@
     }
     
     .modal {
-      background: rgba(43, 43, 43, 0.95);
+      background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 24px;
@@ -2737,7 +2737,7 @@
     }
     
     .thread-select option {
-      background: #2b2b2b;
+      background: var(--bg-primary);
       color: var(--text-primary);
     }
     

@@ -1,19 +1,22 @@
     /* Theme Variables */
     :root {
-      /* Classic - Lime & Teal (Default), from COLORS.jpg */
-      --bg-primary: #06272c;
-      --bg-secondary: #0b4650;
-      --bg-tertiary: #0f5f6c;
-      --bg-card: rgba(15, 95, 108, 0.35);
-      --text-primary: #f9f7f2;
-      --text-secondary: #898a8d;
-      --text-muted: #6b6c6e;
-      --border-color: rgba(249, 247, 242, 0.12);
-      --accent-primary: #e6ff2b;
-      --accent-secondary: #b8cc22;
-      --ruby-accent: #2bc4d6;
+      /* Classic (Default), built from all 4 COLORS.jpg swatches:
+         #e6ff2b lime, #0b4650 teal, #f9f7f2 cream, #898a8d grey.
+         Every value below is either one of those 4 exact hexes, or a
+         literal blend/tint of two of them (noted per line). */
+      --bg-primary: #0b4650;                    /* exact: teal */
+      --bg-secondary: #1e5059;                   /* teal 85% + grey 15% */
+      --bg-tertiary: #375e65;                    /* teal 65% + grey 35% */
+      --bg-card: rgba(137, 138, 141, 0.15);       /* exact: grey, translucent */
+      --text-primary: #f9f7f2;                   /* exact: cream */
+      --text-secondary: #898a8d;                  /* exact: grey */
+      --text-muted: #576f75;                      /* grey 60% + teal 40% */
+      --border-color: rgba(249, 247, 242, 0.14);  /* exact: cream, translucent */
+      --accent-primary: #e6ff2b;                  /* exact: lime */
+      --accent-secondary: #b8cc22;                 /* lime, darkened ~20% */
+      --ruby-accent: #2bc4d6;                      /* teal, same hue lightened to ~55% L for chart/legend contrast */
     }
-    
+
     [data-theme="ruby-noir"] {
       --bg-primary: #0d0d0d;
       --bg-secondary: #1a1a1a;
@@ -387,7 +390,7 @@
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
       border-radius: 8px;
-      color: #0a0e1a;
+      color: #0b4650;
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
@@ -1278,7 +1281,7 @@
     }
     
     select.form-input option {
-      background: #1a1f2e;
+      background: #0b4650;
       color: var(--text-primary);
       padding: 8px;
     }
@@ -1755,7 +1758,7 @@
     .btn-capture {
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
-      color: #0a0e1a;
+      color: #0b4650;
       box-shadow: 0 4px 20px rgba(230, 255, 43, 0.3);
     }
     
@@ -1818,7 +1821,7 @@
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
       border-radius: 10px;
-      color: #0a0e1a;
+      color: #0b4650;
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
@@ -2734,7 +2737,7 @@
     }
     
     .thread-select option {
-      background: #1a1f2e;
+      background: #0b4650;
       color: var(--text-primary);
     }
     

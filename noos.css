@@ -40,7 +40,7 @@
       --md-sys-color-surface-variant: #3b3b3b;                       /* near-black + ~12% medium grey */
       --md-sys-color-surface-container-lowest: #323232;             /* near-black + ~5% medium grey */
       --md-sys-color-surface-container-low: #3b3b3b;                 /* near-black + ~12% medium grey */
-      --md-sys-color-surface-container: #494949;                      /* near-black + ~22% medium grey */
+      --md-sys-color-surface-container: #434343;                      /* near-black + ~18% medium grey (WCAG AA fix: 22% only gave 4.29:1 vs on-surface-variant/outline text, below the 4.5:1 minimum for normal text; 18% gives 4.72:1) */
       --md-sys-color-surface-container-high: #5b5b5b;                   /* near-black + ~35% medium grey */
       --md-sys-color-surface-container-highest: #6c6c6c;                 /* near-black + ~48% medium grey */
 

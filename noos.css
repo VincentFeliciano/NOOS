@@ -1,20 +1,20 @@
     /* Theme Variables */
     :root {
-      /* Classic (Default), built from all 4 COLORS.jpg swatches:
-         #e6ff2b lime, #0b4650 teal, #f9f7f2 cream, #898a8d grey.
-         Every value below is either one of those 4 exact hexes, or a
-         literal blend/tint of two of them (noted per line). */
-      --bg-primary: #0b4650;                    /* exact: teal */
-      --bg-secondary: #1e5059;                   /* teal 85% + grey 15% */
-      --bg-tertiary: #375e65;                    /* teal 65% + grey 35% */
-      --bg-card: rgba(137, 138, 141, 0.15);       /* exact: grey, translucent */
-      --text-primary: #f9f7f2;                   /* exact: cream */
-      --text-secondary: #898a8d;                  /* exact: grey */
-      --text-muted: #576f75;                      /* grey 60% + teal 40% */
-      --border-color: rgba(249, 247, 242, 0.14);  /* exact: cream, translucent */
-      --accent-primary: #e6ff2b;                  /* exact: lime */
-      --accent-secondary: #b8cc22;                 /* lime, darkened ~20% */
-      --ruby-accent: #2bc4d6;                      /* teal, same hue lightened to ~55% L for chart/legend contrast */
+      /* Classic (Default), built ONLY from the 4 saltAndPepper.png swatches:
+         #ffffff white, #d4d4d4 light grey, #b3b3b3 medium grey, #2b2b2b near-black.
+         Strict neutral/commercial palette, no hue. Background hierarchy uses
+         alpha-blended overlays of the same 4 tones, never an invented color. */
+      --bg-primary: #2b2b2b;                      /* exact: near-black */
+      --bg-secondary: #3b3b3b;                     /* near-black + ~12% medium grey */
+      --bg-tertiary: #494949;                      /* near-black + ~22% medium grey */
+      --bg-card: rgba(179, 179, 179, 0.08);        /* exact: medium grey, translucent */
+      --text-primary: #ffffff;                     /* exact: white */
+      --text-secondary: #d4d4d4;                   /* exact: light grey */
+      --text-muted: #b3b3b3;                        /* exact: medium grey */
+      --border-color: rgba(179, 179, 179, 0.2);    /* exact: medium grey, translucent */
+      --accent-primary: #ffffff;                    /* exact: white */
+      --accent-secondary: #d4d4d4;                  /* exact: light grey */
+      --ruby-accent: #b3b3b3;                        /* exact: medium grey, for chart/legend contrast against white */
     }
 
     [data-theme="ruby-noir"] {
@@ -207,7 +207,7 @@
       align-items: center;
       letter-spacing: -0.5px;
       margin-bottom: 0;
-      text-shadow: 0 0 20px rgba(230, 255, 43, 0.3);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     }
 
     .logo-wordmark-img {
@@ -342,7 +342,7 @@
     }
     
     .nav-item.active {
-      background: rgba(230, 255, 43, 0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: var(--accent-primary);
     }
     
@@ -363,7 +363,7 @@
     }
     
     .filter-item.active {
-      background: rgba(100, 116, 139, 0.1);
+      background: rgba(179, 179, 179, 0.1);
       color: var(--text-primary);
     }
     
@@ -390,18 +390,18 @@
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
       border-radius: 8px;
-      color: #0b4650;
+      color: #2b2b2b;
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
       transition: all 0.3s;
       margin: 12px;
-      box-shadow: 0 4px 20px rgba(230, 255, 43, 0.3);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
     }
     
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 25px rgba(230, 255, 43, 0.4);
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
     
     .btn-secondary {
@@ -460,8 +460,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(135deg, rgba(230, 255, 43, 0.15), rgba(184, 204, 34, 0.1));
-      border: 1px solid rgba(230, 255, 43, 0.3);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(212, 212, 212, 0.1));
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 8px;
       padding: 10px 12px;
       margin-bottom: 16px;
@@ -523,7 +523,7 @@
     }
     
     .moment-card {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(59, 59, 59, 0.7);
       border: 1px solid var(--border-color);
       border-left: 3px solid;
       border-radius: 8px;
@@ -545,22 +545,22 @@
     }
     
     .moment-card:hover {
-      background: rgba(30, 41, 59, 0.6);
+      background: rgba(59, 59, 59, 0.6);
       border-color: var(--border-color);
       transform: translateX(4px);
     }
     
     .moment-card.selected {
       border-left-width: 4px;
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(59, 59, 59, 0.8);
     }
     
     .moment-thread-badge {
       display: inline-block;
       font-size: 10px;
       padding: 4px 8px;
-      background: rgba(230, 255, 43, 0.15);
-      border: 1px solid rgba(230, 255, 43, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 4px;
       color: var(--accent-primary);
       margin-bottom: 8px;
@@ -571,8 +571,8 @@
       display: inline-block;
       font-size: 10px;
       padding: 4px 8px;
-      background: rgba(100, 116, 139, 0.15);
-      border: 1px solid rgba(100, 116, 139, 0.3);
+      background: rgba(179, 179, 179, 0.15);
+      border: 1px solid rgba(179, 179, 179, 0.3);
       border-radius: 4px;
       color: var(--text-secondary);
       margin-bottom: 8px;
@@ -683,7 +683,7 @@
     .moment-text {
       font-size: 13px;
       line-height: 1.5;
-      color: #cbd5e1;
+      color: #d4d4d4;
       margin-top: 10px;
       margin-bottom: 8px;
       display: -webkit-box;
@@ -885,7 +885,7 @@
     }
     
     .attachment-preview:hover {
-      border-color: rgba(230, 255, 43, 0.5);
+      border-color: rgba(255, 255, 255, 0.5);
       transform: scale(1.05);
     }
     
@@ -915,7 +915,7 @@
       transition: background 0.2s;
     }
     .attachment-file-item:hover {
-      background: rgba(230, 255, 43, 0.1);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .attachment-preview-large {
@@ -1009,7 +1009,7 @@
       flex-shrink: 0;
       padding: 12px 16px;
       border-top: 1px solid var(--border-color);
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(43, 43, 43, 0.95);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -1077,7 +1077,7 @@
     .detail-content {
       font-size: 13px;
       line-height: 1.6;
-      color: #cbd5e1;
+      color: #d4d4d4;
       margin-bottom: 16px;
       word-wrap: break-word;
     }
@@ -1103,7 +1103,7 @@
       background: rgba(0, 0, 0, 0.2);
       padding: 12px;
       border-radius: 6px;
-      border-left: 2px solid rgba(100, 116, 139, 0.3);
+      border-left: 2px solid rgba(179, 179, 179, 0.3);
     }
     
     .context-item-label {
@@ -1155,8 +1155,8 @@
     .capture-thread-indicator {
       margin-top: 12px;
       padding: 8px 12px;
-      background: rgba(230, 255, 43, 0.15);
-      border: 1px solid rgba(230, 255, 43, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 6px;
       font-size: 12px;
       color: var(--accent-primary);
@@ -1180,7 +1180,7 @@
       align-items: center;
       gap: 6px;
       padding: 12px;
-      background: rgba(30, 41, 59, 0.4);
+      background: rgba(59, 59, 59, 0.4);
       border: 2px solid var(--border-color);
       border-radius: 8px;
       cursor: pointer;
@@ -1188,13 +1188,13 @@
     }
     
     .type-btn:hover {
-      background: rgba(30, 41, 59, 0.6);
+      background: rgba(59, 59, 59, 0.6);
       border-color: var(--border-color);
     }
     
     .type-btn.active {
       border-color: currentColor;
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(59, 59, 59, 0.8);
     }
     
     .type-btn-icon {
@@ -1248,7 +1248,7 @@
     .form-textarea:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     .form-input {
@@ -1265,13 +1265,13 @@
     .form-input:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     /* Select dropdown styling */
     select.form-input {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e6ff2b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 12px center;
       padding-right: 36px;
@@ -1281,13 +1281,13 @@
     }
     
     select.form-input option {
-      background: #0b4650;
+      background: #2b2b2b;
       color: var(--text-primary);
       padding: 8px;
     }
     
     select.form-input:hover {
-      border-color: rgba(230, 255, 43, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     
     .context-fields {
@@ -1304,7 +1304,7 @@
       display: block;
       font-size: 12px;
       font-weight: 600;
-      color: #cbd5e1;
+      color: #d4d4d4;
       margin-bottom: 6px;
     }
     
@@ -1325,7 +1325,7 @@
     .template-field-textarea:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     .template-data-display {
@@ -1365,7 +1365,7 @@
       border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
-      background: rgba(230, 255, 43, 0.15);
+      background: rgba(255, 255, 255, 0.15);
       color: var(--accent-primary);
     }
     
@@ -1405,8 +1405,8 @@
       align-items: center;
       gap: 4px;
       padding: 3px 8px;
-      background: rgba(230, 255, 43, 0.1);
-      border: 1px solid rgba(230, 255, 43, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 12px;
       font-size: 11px;
       color: var(--accent-primary);
@@ -1416,8 +1416,8 @@
     }
     
     .moment-tag:hover {
-      background: rgba(230, 255, 43, 0.2);
-      border-color: rgba(230, 255, 43, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
     }
     
     .moment-tag.auto-tag {
@@ -1580,7 +1580,7 @@
     .tags-input:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     .tags-display {
@@ -1701,7 +1701,7 @@
     }
     
     .trace-table thead {
-      background: rgba(230, 255, 43, 0.1);
+      background: rgba(255, 255, 255, 0.1);
       position: sticky;
       top: 0;
       z-index: 1;
@@ -1712,7 +1712,7 @@
       text-align: left;
       font-weight: 600;
       color: var(--accent-primary);
-      border-bottom: 2px solid rgba(230, 255, 43, 0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -1720,7 +1720,7 @@
     
     .trace-table td {
       padding: 10px 12px;
-      color: #cbd5e1;
+      color: #d4d4d4;
       border-bottom: 1px solid var(--border-color);
     }
     
@@ -1758,13 +1758,13 @@
     .btn-capture {
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
-      color: #0b4650;
-      box-shadow: 0 4px 20px rgba(230, 255, 43, 0.3);
+      color: #2b2b2b;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
     }
     
     .btn-capture:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(230, 255, 43, 0.4);
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
     
     .btn-cancel {
@@ -1813,7 +1813,7 @@
     .search-input:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     .btn-search {
@@ -1821,7 +1821,7 @@
       background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       border: none;
       border-radius: 10px;
-      color: #0b4650;
+      color: #2b2b2b;
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
@@ -1833,7 +1833,7 @@
     
     .btn-search:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(230, 255, 43, 0.3);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
     }
     
     .btn-search:disabled {
@@ -1941,7 +1941,7 @@
     #graphContainer {
       flex: 1;
       position: relative;
-      background: #04070f;
+      background: #2b2b2b;
       overflow: hidden;
     }
 
@@ -2197,7 +2197,7 @@
     }
     .wb-tool-btn:hover { background: var(--border-color); }
     .wb-tool-btn.active {
-      background: rgba(230,255,43,0.12);
+      background: rgba(255,255,255,0.12);
       color: var(--accent-primary);
       border-color: var(--accent-primary);
     }
@@ -2271,7 +2271,7 @@
     }
     .wb-tile.selected {
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 2px rgba(230,255,43,0.2), 0 2px 10px rgba(0,0,0,0.35);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.2), 0 2px 10px rgba(0,0,0,0.35);
     }
     .wb-tile.link-source {
       border-color: #e05252;
@@ -2560,7 +2560,7 @@
     }
     
     .thread-item.active {
-      background: rgba(230, 255, 43, 0.1);
+      background: rgba(255, 255, 255, 0.1);
       border-left: 3px solid var(--accent-primary);
     }
     
@@ -2598,7 +2598,7 @@
     }
     
     .modal {
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(43, 43, 43, 0.95);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 24px;
@@ -2676,8 +2676,8 @@
     
     /* Thread Assignment */
     .thread-assignment {
-      background: rgba(230, 255, 43, 0.05);
-      border: 1px solid rgba(230, 255, 43, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 8px;
       padding: 12px;
       margin-bottom: 16px;
@@ -2718,7 +2718,7 @@
       width: 100%;
       padding: 8px 10px;
       background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(230, 255, 43, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 6px;
       color: var(--text-primary);
       font-size: 13px;
@@ -2727,17 +2727,17 @@
     }
     
     .thread-select:hover {
-      border-color: rgba(230, 255, 43, 0.5);
+      border-color: rgba(255, 255, 255, 0.5);
     }
     
     .thread-select:focus {
       outline: none;
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(230, 255, 43, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
     .thread-select option {
-      background: #0b4650;
+      background: #2b2b2b;
       color: var(--text-primary);
     }
     
@@ -2779,7 +2779,7 @@
       color: var(--accent-primary);
       font-weight: 600;
       padding: 2px 6px;
-      background: rgba(230, 255, 43, 0.15);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 3px;
     }
     
@@ -2918,7 +2918,7 @@
     /* About Modal Specific Styles */
     .about-content {
       line-height: 1.7;
-      color: #cbd5e1;
+      color: #d4d4d4;
     }
 
     .about-content h3 {
@@ -3844,7 +3844,7 @@
   }
   .sf-pill:hover { border-color: var(--accent-primary); color: var(--text-primary); }
   .sf-pill.active {
-    background: rgba(var(--accent-rgb, 230,255,43), 0.15);
+    background: rgba(var(--accent-rgb, 255,255,255), 0.15);
     border-color: var(--accent-primary);
     color: var(--accent-primary);
   }

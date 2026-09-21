@@ -557,7 +557,12 @@
       background: var(--border-color);
       border-color: rgba(255, 255, 255, 0.2);
     }
-    
+
+    .btn-secondary:disabled {
+      opacity: var(--md-sys-state-disabled-content-opacity);
+      cursor: not-allowed;
+    }
+
     /* Timeline View */
     .timeline-view {
       flex: 1;
@@ -1402,7 +1407,12 @@
       border-color: var(--accent-primary);
       box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
-    
+
+    .form-input:disabled {
+      opacity: var(--md-sys-state-disabled-content-opacity);
+      cursor: not-allowed;
+    }
+
     /* Select dropdown styling */
     select.form-input {
       cursor: pointer;
@@ -1901,7 +1911,14 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
-    
+
+    .btn-capture:disabled {
+      opacity: var(--md-sys-state-disabled-content-opacity);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
     .btn-cancel {
       background: var(--border-color);
       border: 1px solid var(--border-color);
@@ -4218,5 +4235,6 @@
     white-space: nowrap;
   }
   .sidebar-tool-btn:hover { border-color: var(--accent-primary); color: var(--text-primary); }
+  .sidebar-tool-btn:disabled { opacity: var(--md-sys-state-disabled-content-opacity); cursor: not-allowed; }
   .sidebar-tool-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
 

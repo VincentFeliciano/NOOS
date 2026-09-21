@@ -56,17 +56,16 @@
         <button class="btn-secondary" id="newThreadBtn" style="width: 100%;">
           <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New Thread
         </button>
+        <button class="btn-secondary" id="quickCaptureBtn" style="width: 100%;" onclick="openQuickCapture()" title="Quick Capture (Ctrl+K)">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg> Quick Capture <kbd style="font-size:9px;opacity:0.6;font-family:monospace;margin-left:2px;">Ctrl+K</kbd>
+        </button>
       </div>
       <div class="sidebar-tools">
-        <button class="sidebar-tool-btn" onclick="openQuickCapture()" title="Quick Capture (Ctrl+K)">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Quick <kbd style="font-size:9px;opacity:0.6;font-family:monospace;margin-left:2px;">Ctrl+K</kbd>
-        </button>
         <button class="sidebar-tool-btn" onclick="exportToMarkdown()" title="Export to Markdown">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           Export MD
         </button>
-        <button class="sidebar-tool-btn" id="navSaveBtn" onclick="navSave()" title="Save Now">
+        <button class="sidebar-tool-btn" id="navSaveBtn" onclick="navSave()" title="Save Now (pushes to GitHub)" style="display:none;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
           Save
         </button>

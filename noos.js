@@ -546,6 +546,7 @@ async function loadData() {
     state.threads = [];
     render();
   }
+  updateGithubSyncUI();
 }
   
 function saveSelectedThread() {
@@ -5533,6 +5534,13 @@ function updateGithubSyncUI() {
   const connectBtn    = document.getElementById('githubConnectBtn');
   const disconnectBtn = document.getElementById('githubDisconnectBtn');
   const lastSaveEl    = document.getElementById('githubLastSave');
+
+  // "Save" only does anything beyond what auto-save already does when it can
+  // actually push to GitHub - hide it otherwise rather than show a button
+  // that just silently no-ops the git part.
+  const navSaveBtn = document.getElementById('navSaveBtn');
+  if (navSaveBtn) navSaveBtn.style.display = state.githubSyncEnabled ? '' : 'none';
+
   if (!statusEl) return;
   if (state.githubSyncEnabled) {
     statusEl.style.display = 'block';
